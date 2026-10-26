@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Versions · Virtual Bench</title>
+<meta name="description" content="Changelog of the Virtual Bench scales.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314181f'/%3E%3Crect x='14.5' y='5' width='3' height='22' rx='1.5' fill='%23fff'/%3E%3Crect x='6' y='20' width='7' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='8' y='14' width='5' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='10' y='8' width='3' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='22' cy='9' r='2.8' fill='%236ea8f0'/%3E%3Ccircle cx='22' cy='16' r='2.8' fill='%236ea8f0' opacity='.7'/%3E%3Ccircle cx='22' cy='23' r='2.8' fill='%236ea8f0' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="module" src="../assets/app.js"></script>
+</head>
+<body data-page="versions" data-base="../">
+<div id="nav"></div>
+<main>
+  <header class="wrap page-head">
+    <p class="kicker">Versions</p>
+    <h1>Scale versions</h1>
+    <p>Every refit that changes the item bank or the pool gets a version. Abilities are quoted with the version they were placed on; the current representation scale is v3, the perturbation scales are the 2026-10-20 fits.</p>
+  </header>
+
+  <section class="wrap section tight">
+    <div class="timeline">
+      <div class="ev"><time>2026-10-21</time><div><h3>Foundation models placed on the curated panels</h3><p>Seven pretrained single-cell models (scGPT, Geneformer V2, UCE, STATE, scPRINT large, CellPLM, TranscriptFormer) embed every cell of the eight curated panels and are read by the same frozen probe. They are placed with item difficulties held fixed, so no published ability moved; the boards mark them <em>anchored</em>. They are also placed on the pooled 14-panel scale from the seven panels finished so far (Tabula Sapiens to follow): scGPT +1.07, Geneformer +1.06, TranscriptFormer +1.02, UCE +0.88, STATE +0.76, CellPLM +0.37, scPRINT large −0.20, against +0.72 for the best simple model. The boards now show a featured set by default, one or two settings per simple family plus every learned model; "show all" reveals the full pool that defines the scale.</p></div></div>
+      <div class="ev"><time>2026-10-20</time><div><h3>Perturbation: unseen-combination scale with learned respondents</h3><p>The context split becomes the primary perturbation setting. A second pooled scale, <code>pooled_context</code>, covers the five multi-context screens (Tahoe-100M, Parse cytokines, sciPlex3, McFarland, Frangieh), 71,897 conditions. New respondents: scVI counterfactual, scGen, and two MLPs from item features to a 50-dimensional PCA of the responses. MLP-256 leads at +4.44; scVI counterfactual sits at −0.08 and scGen at −0.42 after the Tahoe rerun.</p></div></div>
+      <div class="ev"><time>2026-10-19</time><div><h3>Representation v3: fourteen panels</h3><p>The eight curated panels plus the six scaled-up scBaseCount human panels (<code>human200</code>, every filter-passing sample up to 200 per tissue). 424,478 items, 370,341 informative, 52,890 passed by nobody. Top of the scale: Nyström-256D +0.72, scVI-30D +0.72 and +0.71, PCA-128D +0.69. The 60-sample scBaseCount runs stay in the archive but leave the pooled scale.</p></div></div>
+      <div class="ev"><time>2026-10-19</time><div><h3>scBaseCount human200 panels and their pooled scale</h3><p>More samples do not make single-tissue panels easier, because extra samples bring extra label vocabularies; blood is the exception. scVI-30D moves to the top of the scBaseCount-only pooled scale and wins outright on blood and bone marrow.</p></div></div>
+      <div class="ev"><time>2026-10-16</time><div><h3>scBaseCount panels, 60 samples per tissue</h3><p>Eleven panels across human and mouse, 197,166 items on their own pooled scale. Six to 29% of items are passed by nobody, mouse worse than human: label mismatch across submissions, not rare biology. The mouse twelve-tissue panel is degenerate and excluded. scVI added to the six human panels; the human-only pooled scale puts it within 0.02 logits of PCA-64D.</p></div></div>
+      <div class="ev"><time>2026-10-15 / 16</time><div><h3>Representation v1 and the Parse cytokine screen</h3><p>Six CELLxGENE panels and two Parse panels join Tabula Sapiens v2 on an eight-panel pooled scale of 146,428 items, with item identifiers namespaced by panel (v0 had double-counted 7,458 cells). Component B gains the Parse cytokine screen, 13,967 conditions over 169 contexts; the pooled unseen-perturbation scale grows to 15 screens.</p></div></div>
+      <div class="ev"><time>2026-10-14</time><div><h3>v0: first fits</h3><p>Component A: Tabula Sapiens v2, 20,026 cells, 27 classical embeddings plus three scVI settings. Component B: thirteen scPerturb screens, 20,225 conditions. Ladders are monotone, floors last, and the mean shift is the best or second-best respondent on raw Pearson in 9 of 13 screens.</p></div></div>
+    </div>
+    <div class="prose" style="margin-top:2rem">
+      <h2>Naming</h2>
+      <p>Pooled representation scales are <code>repr_pooled_vN</code>; each panel's own fit is <code>repr_&lt;panel&gt;</code>. Perturbation fits live under one run, <code>pert_pool_v0</code>, with pooled scales <code>pooled</code> (unseen perturbation) and <code>pooled_context</code> (unseen combination) and one fit per screen and split. Run outputs, item tables and Rasch reports are in the repository under <code>runs/</code>.</p>
+    </div>
+  </section>
+
+</main>
+<div id="footer"></div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The rules in full · Virtual Bench</title>
+<meta name="description" content="Items, responses, the frozen probe, the mean-shift pass rule and the Rasch model behind the scale.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314181f'/%3E%3Crect x='14.5' y='5' width='3' height='22' rx='1.5' fill='%23fff'/%3E%3Crect x='6' y='20' width='7' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='8' y='14' width='5' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='10' y='8' width='3' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='22' cy='9' r='2.8' fill='%236ea8f0'/%3E%3Ccircle cx='22' cy='16' r='2.8' fill='%236ea8f0' opacity='.7'/%3E%3Ccircle cx='22' cy='23' r='2.8' fill='%236ea8f0' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="module" src="../assets/app.js"></script>
+</head>
+<body data-page="rules" data-base="../">
+<div id="nav"></div><main>
+  <header class="wrap page-head">
+    <p class="kicker">How it works</p>
+    <h1>The rules in full</h1>
+    <p>Items, responses, the frozen probe, the mean-shift pass rule, the Rasch fit, pooled scales and versioning, as they are implemented. The short version is on the <a href="../how/">How it works</a> page.</p>
+  </header>
+  <section class="wrap section tight">
+    <div class="prose">
+      <h2>Items</h2>
+      <p>Every test case is an item. An item carries a difficulty, a model carries an ability, and both are estimated from which items the model passes. The bank has two components with different items but the same response format.</p>
+      <h3>Representation: one cell is one item</h3>
+      <p>A representation model maps a cell's expression profile to a vector. The response is whether a multinomial logistic regression, trained once on the vectors of a separate training panel with fixed settings, assigns the cell its annotated type. The classifier is identical for every model, so a difference in responses is a difference in embeddings. Models never see the test cells during fitting; UMAP and t-SNE are excluded for that reason.</p>
+      <p>Each annotation source becomes a panel by one procedure. The unit of the split is chosen first: whole donors, studies or tissues are held out, so that nothing is shared between training cells and test items and the probe cannot learn donor identity as a stand-in for cell type. A stratum is a context, cell type and donor combination; each keeps at most 200 training and 50 to 100 test cells, and strata under 20 cells are dropped. Test cells whose type is absent from training are kept in the panel but not scored.</p>
+      <h3>Perturbation: one condition is one item</h3>
+      <p>An item is a perturbation applied in a context: a knockdown, knockout or activation target, a compound at a dose, or a cytokine, in a cell line, donor or cell type. The cells of a condition are replicates, not items. The measured response of a condition is the mean log-normalised expression of its cells minus that of its matched control cells. Items need at least 50 quality-passing cells and a matched control.</p>
+      <p>A model predicts the response for conditions it was not trained on. Two splits exist. <b>Unseen perturbation</b>: five folds over perturbation identity, every perturbation held out once. <b>Unseen combination</b>: for multi-context screens, (perturbation, context) pairs are held out while the same perturbation stays visible in other contexts. Folds are deterministic, and the same folds serve the classical pool and the learned models.</p>
+
+      <h2>Responses</h2>
+      <h3>The frozen probe</h3>
+      <p>One multinomial logistic regression with one regularisation setting, standardised inputs and a fixed iteration budget. It is fit once per model on the training panel and scored on the test cells. A pass is the predicted label equalling the annotated one.</p>
+      <h3>The mean-shift pass rule</h3>
+      <p>A perturbation prediction is scored by its Pearson correlation with the measured response over the 2,000 most variable genes, chosen on control cells. The item is passed when that correlation exceeds the one of the context's mean shift, the average response over the training conditions of that context. Recent benchmarks found that this average matches deep models on standard metrics, because much of any response is shared across perturbations. A pass therefore credits the perturbation-specific part of a prediction and not the part every perturbation shares. Difficulty reads as how far past the shared shift a model must be on that condition.</p>
+
+      <h2>The model</h2>
+      <p>The Rasch model: the probability that model <i>j</i> passes item <i>i</i> is σ(θ<sub>j</sub> − b<sub>i</sub>), the logistic function of ability minus difficulty. A model at the item's difficulty passes it half the time; one logit above passes it 73% of the time; two logits above, 88%.</p>
+      <p>All abilities and difficulties are estimated at once by joint maximum likelihood, with a Gaussian prior of standard deviation 3 on abilities and a weaker one of standard deviation 4 on difficulties. The prior on difficulties fixes the location of the scale, which the likelihood alone leaves free, and keeps items that every model passes or fails at a finite value. Such items are flagged as degenerate and excluded from every summary; they carry no information about the current pool. Fitting alternates Newton steps on abilities and difficulties until the largest change is below 10<sup>−6</sup>, a few hundred sweeps and eight minutes for the 424,478 representation items.</p>
+      <h3>Standard errors and fit</h3>
+      <p>Standard errors come from the observed Fisher information. Each model and item also has an outfit statistic, the mean squared standardised residual over its responses. A value near 1 means the responses are as the model predicts; a model with outfit above 2 passes and fails items its ability does not explain and is flagged as misfit on the board. Random embeddings misfit by construction, as a pure guesser should.</p>
+      <h3>Pooled scales</h3>
+      <p>Each component is fit on one pooled scale, all fourteen panels together and all fifteen screens together, linked through the models, which answer every panel and every screen under the same name. Item identifiers are namespaced by panel, because the same cell can be a test item under two splits of one atlas. The perturbation component keeps two pooled scales, one per split, so that every item has one response per model. Every panel and screen also gets its own fit; those abilities are comparable within the fit but not across fits.</p>
+      <p>Two checks validate every fit. On synthetic data with 80 models and 2,000 items at 30% missingness the recovered abilities correlate 0.998 with the truth and the difficulties 0.969. On real data the floors must come out at the bottom and every capacity ladder in order before any other reading of the scale is made.</p>
+
+      <h2>What the scale does and does not say</h2>
+      <p>Ability is relative to the pool that defined the difficulties. A value of 0.69 for PCA-128D means it passes a typical item of this bank with probability σ(0.69 − b), not that it is good in an absolute sense. Difficulty is relative to the models: an item is hard because these methods fail it. Both are comparable within a component across models and, with care, across datasets; they are not comparable between the two components, which are fit separately.</p>
+      <p>Items passed by nobody are reported as a share per panel and screen. On curated atlases they are a few percent; on scBaseCount panels, whose labels come from many submissions with different vocabularies, up to a third. Those items are label-noise floors rather than hard biology, and they are the first candidates for retirement.</p>
+
+      <h2>New models and versions</h2>
+      <p>A new model is placed on the current scale with item difficulties held fixed, so its ability is comparable to everything already on the board. When enough new models have answered, abilities and difficulties are refit together and the scale version advances; every version stays available and citable. The classical pool anchors every version to methods that cannot have memorised the test data. A contamination register, which records for each learned model whether a source was in its pretraining corpus, qualifies the ability of any foundation model placed on the scale.</p>
+      <p class="note"><a href="../versions/">Scale versions →</a> · <a href="../contribute/">Submit a model →</a></p>
+    </div>
+  </section>
+</main>
+<div id="footer"></div>
+</body>
+</html>

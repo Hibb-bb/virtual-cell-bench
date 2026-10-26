@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Items · Virtual Bench</title>
+<meta name="description" content="Browse every cell type and every perturbation condition with its estimated difficulty.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314181f'/%3E%3Crect x='14.5' y='5' width='3' height='22' rx='1.5' fill='%23fff'/%3E%3Crect x='6' y='20' width='7' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='8' y='14' width='5' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='10' y='8' width='3' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='22' cy='9' r='2.8' fill='%236ea8f0'/%3E%3Ccircle cx='22' cy='16' r='2.8' fill='%236ea8f0' opacity='.7'/%3E%3Ccircle cx='22' cy='23' r='2.8' fill='%236ea8f0' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="module" src="../assets/app.js"></script>
+</head>
+<body data-page="items" data-base="../">
+<div id="nav"></div>
+<main>
+  <header class="wrap page-head">
+    <p class="kicker">Items</p>
+    <h1>Every item, with its difficulty</h1>
+    <p>Difficulty is in logits on the pooled scale of each component. A model with ability equal to an item's difficulty passes it half the time. Positive is hard, negative is easy; items passed by nobody are shown with their share rather than a finite value.</p>
+  </header>
+
+  <section class="wrap section tight">
+    <div class="bar">
+      <div class="seg" id="it-comp" role="group" aria-label="Component"><button type="button" data-comp="repr" class="on" aria-pressed="true">Cell types</button><button type="button" data-comp="pert" aria-pressed="false">Perturbation conditions</button></div>
+      <select class="sel" id="it-group" aria-label="Panel or screen"></select>
+      <select class="sel" id="it-scheme" aria-label="Split" hidden></select>
+      <input class="inp" id="it-q" type="search" placeholder="Search type, gene, drug, context…" aria-label="Search">
+      <span class="grow"></span>
+      <span class="note" id="it-count"></span>
+    </div>
+    <div class="tbl-wrap"><table id="it-table"></table></div>
+    <div class="pager" id="it-pager"></div>
+    <p class="note" id="it-note" style="margin-top:0.8rem"></p>
+    <p id="err" class="empty" hidden></p>
+  </section>
+
+</main>
+<div id="footer"></div>
+</body>
+</html>

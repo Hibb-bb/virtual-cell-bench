@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Representation to perturbation · Virtual Bench</title>
+<meta name="description" content="Does a good representation model make a good perturbation model? The Parse PBMC link and the shared-encoder ladder.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314181f'/%3E%3Crect x='14.5' y='5' width='3' height='22' rx='1.5' fill='%23fff'/%3E%3Crect x='6' y='20' width='7' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='8' y='14' width='5' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='10' y='8' width='3' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='22' cy='9' r='2.8' fill='%236ea8f0'/%3E%3Ccircle cx='22' cy='16' r='2.8' fill='%236ea8f0' opacity='.7'/%3E%3Ccircle cx='22' cy='23' r='2.8' fill='%236ea8f0' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="module" src="../assets/app.js"></script>
+</head>
+<body data-page="link" data-base="../">
+<div id="nav"></div>
+<main>
+  <header class="wrap page-head">
+    <p class="kicker">Representation → perturbation</p>
+    <h1>Does a good representation make a good perturbation model?</h1>
+    <p>The two components share sources, and will share encoders. That makes the question testable at two levels: do the cell types that are hard to represent give perturbation conditions that are hard to predict, and do encoders that score high on one scale score high on the other.</p>
+  </header>
+
+  <section class="wrap section tight" id="item-level">
+    <div class="head"><h2>Item level: Parse PBMC in both components</h2><p class="lead">The Parse 10M PBMC atlas is an annotation panel (cell type is the label, donors held out) and a cytokine screen (context is donor and cell type). Every perturbation condition therefore has a context whose representation difficulty is already estimated. Five donors overlap.</p></div>
+    <div class="grid cols-2">
+      <div class="fig"><h3>Cell type level</h3><p class="sub" id="link-ct-sub"></p><div id="link-ct"></div><p class="foot">Mean difficulty over the type's cells (x) and over the cytokine conditions in that type (y), with standard errors of the means.</p></div>
+      <div class="fig"><h3>Donor × cell type level</h3><p class="sub" id="link-dt-sub"></p><div id="link-dt"></div><p class="foot">One point per context shared by both components.</p></div>
+    </div>
+    <div class="prose" style="margin-top:1.4rem">
+      <h3>The confound</h3>
+      <p>Raw correlation is near zero at both levels, and the table shows why. The abundant T-cell types are the hardest to represent, because the probe confuses sibling states, and the easiest to predict perturbations for, because a condition with a thousand cells has a precise pseudobulk. Cells per condition pulls the two difficulties apart.</p>
+      <p>Controlling for cells per condition, the partial correlation turns positive but small. Sixteen types and sixty-nine contexts are too few to settle it; the screen-level test with shared encoders below is the one with power.</p>
+    </div>
+    <div class="tbl-wrap" style="margin-top:1rem"><table id="link-table"></table></div>
+    <details style="margin-top:0.8rem"><summary class="note">Every scale and split combination</summary><div class="tbl-wrap" style="margin-top:0.6rem"><table id="link-levels"></table></div></details>
+  </section>
+
+  <section class="wrap section" id="encoders">
+    <div class="head"><h2>Model level: shared encoders</h2><p class="lead">Hold the perturbation model fixed and vary only the encoder underneath it. Every encoder then has one ability on each scale, and the random projections at each dimension say how much is dimension alone.</p></div>
+    <figure class="scene">
+      <svg class="scene-svg" viewBox="0 0 1240 330" role="img" aria-label="Cells are embedded by one encoder, the only part that varies; the same latent vectors feed the frozen probe for a representation ability and a latent-shift model with a fixed decoder for a perturbation ability, giving each encoder one point with two abilities." style="width:100%;height:auto;display:block" font-family="var(--body)">
+<defs><marker id="rc-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9 z" fill="var(--fg-3)"/></marker></defs>
+<rect x="20" y="128" width="130" height="70" rx="10" fill="var(--bg-2)" stroke="var(--line-2)" stroke-width="1.2"/>
+<text x="85.0" y="150" text-anchor="middle" font-size="14.5" fill="var(--fg)" font-weight="600">cells</text>
+<text x="85.0" y="167" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">expression profiles</text>
+<text x="85.0" y="182" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">of one screen</text>
+<line x1="150" y1="163" x2="196" y2="163" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="198" y="118" width="170" height="90" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>
+<text x="283.0" y="140" text-anchor="middle" font-size="14.5" fill="var(--fg)" font-weight="600">encoder</text>
+<text x="283.0" y="157" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">PCA, ICA, Nyström,</text>
+<text x="283.0" y="172" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">random projection, …</text>
+<text x="283.0" y="187" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">the only part that varies</text>
+<line x1="368" y1="163" x2="414" y2="163" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="416" y="128" width="120" height="70" rx="10" fill="var(--bg-2)" stroke="var(--line-2)" stroke-width="1.2"/>
+<text x="476.0" y="150" text-anchor="middle" font-size="14.5" fill="var(--fg)" font-weight="600">latent z</text>
+<text x="476.0" y="167" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">one vector</text>
+<text x="476.0" y="182" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">per cell</text>
+<line x1="536" y1="150" x2="600" y2="70" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="602" y="36" width="170" height="68" rx="10" fill="var(--bg-2)" stroke="var(--s1)" stroke-width="1.2"/>
+<text x="687.0" y="58" text-anchor="middle" font-size="14" fill="var(--fg)" font-weight="600">frozen probe</text>
+<text x="687.0" y="75" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">names the cell type</text>
+<text x="687.0" y="90" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">from z</text>
+<line x1="772" y1="70" x2="818" y2="70" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="820" y="36" width="190" height="68" rx="10" fill="var(--bg-2)" stroke="var(--s1)" stroke-width="1.2"/>
+<text x="915.0" y="58" text-anchor="middle" font-size="14" fill="var(--s1)" font-weight="600">representation ability</text>
+<text x="915.0" y="75" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">pass = type named right</text>
+<text x="915.0" y="90" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">all 14 panels</text>
+<text x="560" y="40" text-anchor="middle" font-size="16" fill="var(--s1)" font-weight="700">A</text>
+<line x1="536" y1="176" x2="600" y2="256" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="602" y="222" width="170" height="68" rx="10" fill="var(--bg-2)" stroke="var(--s2)" stroke-width="1.2"/>
+<text x="687.0" y="244" text-anchor="middle" font-size="14" fill="var(--fg)" font-weight="600">latent shift</text>
+<text x="687.0" y="261" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">mean z of perturbed cells</text>
+<text x="687.0" y="276" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">minus control, per condition</text>
+<line x1="772" y1="256" x2="818" y2="256" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="820" y="222" width="190" height="68" rx="10" fill="var(--bg-2)" stroke="var(--s2)" stroke-width="1.2"/>
+<text x="915.0" y="244" text-anchor="middle" font-size="14" fill="var(--s2)" font-weight="600">perturbation ability</text>
+<text x="915.0" y="261" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">fixed linear decoder to genes;</text>
+<text x="915.0" y="276" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">pass = beats the mean shift</text>
+<text x="560" y="300" text-anchor="middle" font-size="16" fill="var(--s2)" font-weight="700">B</text>
+<line x1="1010" y1="70" x2="1060" y2="148" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<line x1="1010" y1="256" x2="1060" y2="178" stroke="var(--line-2)" stroke-width="1.3" marker-end="url(#rc-a)"/>
+<rect x="1062" y="128" width="160" height="70" rx="10" fill="var(--bg-2)" stroke="var(--fg)" stroke-width="1.2"/>
+<text x="1142.0" y="150" text-anchor="middle" font-size="14.5" fill="var(--fg)" font-weight="600">one point</text>
+<text x="1142.0" y="167" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">same encoder,</text>
+<text x="1142.0" y="182" text-anchor="middle" font-size="12.6" fill="var(--fg-2)">two abilities</text>
+<text x="20" y="318" text-anchor="start" font-size="12.5" fill="var(--fg-3)">Hold everything fixed except the encoder; the random projections at each dimension are the null.</text>
+</svg>
+    </figure>
+    <div id="enc-body"></div>
+    <div class="prose" id="enc-reading">
+      <h3>Reading</h3>
+      <p>Across the 27 classical encoders the two abilities move together: Spearman +0.94 and +0.95 on the two perturbation scales, and still +0.95 without the random projections. It is not only dimension: at equal dimension a random projection sits far below PCA on both sides.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>encoder</th><th>representation ability</th><th>perturbation ability (unseen combination)</th></tr></thead>
+        <tbody>
+          <tr><td>PCA-128D</td><td>+0.69</td><td>+0.63</td></tr>
+          <tr><td>random projection 128D (null)</td><td>−0.07</td><td>−1.27</td></tr>
+          <tr><td>Nyström-256D</td><td>+0.72</td><td>−0.57</td></tr>
+          <tr><td>PCA-256D</td><td>+0.67</td><td>+0.87</td></tr>
+          <tr><td>models that learn their basis from responses (PCA regression, MLP, low-rank)</td><td>—</td><td>+4.5 to +5.8</td></tr>
+        </tbody></table></div>
+      <p>The mapping breaks at the top. Nyström features are the best annotation encoder and a poor response basis, and the whole family sits two to five logits below models that learn their basis from responses. Representation quality orders encoders within a family; it does not close that gap.</p>
+      <p class="note">Foundation-model encoders enter through the same recipe once their embeddings are on the representation scale; see the <a href="../contribute/">contribute</a> page.</p>
+    </div>
+  </section>
+
+  <section class="wrap section" id="bytype">
+    <div class="head"><h2>Type level: does it transfer within a cell type?</h2><p class="lead">If an encoder annotates cell type X well, does it predict perturbations in X well? Every encoder gets one representation ability per type and one perturbation ability per type, anchored to the panel and screen difficulties. Subtracting the encoder's overall ability leaves the type-specific part, which is what would have to transfer.</p></div>
+    <div id="bytype-body"></div>
+    <p id="err" class="empty" hidden></p>
+  </section>
+
+</main>
+<div id="footer"></div>
+</body>
+</html>

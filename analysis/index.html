@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Analysis · Virtual Bench</title>
+<meta name="description" content="What makes an item hard, where the bank can measure, head-to-head model comparison and an adaptive exam demo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314181f'/%3E%3Crect x='14.5' y='5' width='3' height='22' rx='1.5' fill='%23fff'/%3E%3Crect x='6' y='20' width='7' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='8' y='14' width='5' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='10' y='8' width='3' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='22' cy='9' r='2.8' fill='%236ea8f0'/%3E%3Ccircle cx='22' cy='16' r='2.8' fill='%236ea8f0' opacity='.7'/%3E%3Ccircle cx='22' cy='23' r='2.8' fill='%236ea8f0' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="module" src="../assets/app.js"></script>
+</head>
+<body data-page="analysis" data-base="../">
+<div id="nav"></div>
+<main>
+  <header class="wrap page-head">
+    <p class="kicker">Analysis</p>
+    <h1>What the scale shows</h1>
+    <p>Four readings that a pass-rate leaderboard cannot give: what makes an item hard, where the bank can still measure, where two models disagree, and how few items an adaptive exam needs.</p>
+  </header>
+
+  <section class="wrap section tight" id="covariates">
+    <div class="head"><h2>What makes an item hard</h2><p class="lead">Median difficulty by decile of the covariate, with the interquartile range shaded. Representation items on the pooled scale of 14 panels; perturbation items on the pooled unseen-perturbation scale.</p></div>
+    <div class="grid cols-2">
+      <div class="fig"><h3>Cells: sequencing depth</h3><p class="sub" id="cov-depth-sub"></p><div id="cov-depth"></div></div>
+      <div class="fig"><h3>Cells: training support of the type</h3><p class="sub" id="cov-support-sub"></p><div id="cov-support"></div></div>
+      <div class="fig"><h3>Conditions: effect size</h3><p class="sub" id="cov-effect-sub"></p><div id="cov-effect"></div></div>
+      <div class="fig"><h3>Conditions: cells per condition</h3><p class="sub" id="cov-cells-sub"></p><div id="cov-cells"></div></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:1rem">
+      <div class="fig"><h3>Spearman correlation with difficulty, by panel</h3><div class="tbl-wrap"><table id="cov-table-a"></table></div></div>
+      <div class="fig"><h3>Spearman correlation with difficulty, by screen</h3><div class="tbl-wrap"><table id="cov-table-b"></table></div><p class="foot">Effect size is the L2 norm of the measured delta. Under the mean-shift pass rule a large effect is not an easy item: the shared shift already captures it.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="by-source">
+    <div class="head"><h2>Difficulty by panel and screen</h2><p class="lead">Boxes span the interquartile range, whiskers the 5th to 95th percentile, over informative items. The shaded band is the ability range of the classical pool; the dashed line is the best model.</p></div>
+    <div class="grid cols-2">
+      <div class="fig"><h3>Representation panels, pooled scale</h3><div id="box-a"></div></div>
+      <div class="fig"><h3>Perturbation screens, pooled unseen-perturbation scale</h3><div id="box-b"></div></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="coverage">
+    <div class="head"><h2>Where the bank can measure</h2><p class="lead">An item is uninformative for the current pool when every model passes it, or fails it, with probability at least t. Test information is the sum of p(1−p) over informative items at each ability; the scale measures best where it peaks.</p></div>
+    <div class="grid cols-2">
+      <div class="fig"><h3>Uninformative items against the threshold</h3><div id="retire-a"></div><p class="foot" id="retire-foot"></p></div>
+      <div class="fig"><h3>Test information along the ability axis</h3><div id="info"></div><p class="foot">Dashed lines mark the best model of each component. Information to the right of them is what a stronger model will be measured with.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="h2h">
+    <div class="head"><h2>Head to head</h2><p class="lead">Two models of similar ability can pass different items. For each panel or screen: the share of items both pass, only the first passes, only the second passes, and neither passes.</p></div>
+    <div class="bar">
+      <div class="seg" id="h2h-comp" role="group" aria-label="Component"><button type="button" data-comp="repr" class="on" aria-pressed="true">Representation</button><button type="button" data-comp="pert" aria-pressed="false">Perturbation</button></div>
+      <select class="sel" id="h2h-a" aria-label="First model"></select><span class="faint">vs</span><select class="sel" id="h2h-b" aria-label="Second model"></select>
+    </div>
+    <div class="fig"><div id="h2h-summary" class="sub"></div><div id="h2h-chart"></div><div class="legend"><span><i class="sw" style="--c:var(--s3)"></i>both pass</span><span><i class="sw" style="--c:var(--s1)"></i>only first</span><span><i class="sw" style="--c:var(--s2)"></i>only second</span><span><i class="sw" style="--c:var(--s0)"></i>neither</span></div></div>
+  </section>
+
+  <section class="wrap section" id="adaptive">
+    <div class="head"><h2>An adaptive exam</h2><p class="lead">With item difficulties known, a model's ability can be estimated from a few hundred well-chosen items instead of the whole bank. Each step picks the unanswered item whose difficulty is nearest the running estimate, then takes a Newton step on the Rasch likelihood. Random order is shown for comparison.</p></div>
+    <div class="bar">
+      <div class="seg" id="cat-comp" role="group" aria-label="Component"><button type="button" data-comp="repr" class="on" aria-pressed="true">Representation</button><button type="button" data-comp="pert" aria-pressed="false">Perturbation</button></div>
+      <select class="sel" id="cat-rid" aria-label="Model"></select>
+      <button type="button" class="btn" id="cat-run">Run again</button>
+    </div>
+    <div class="fig"><div id="cat-chart"></div><p class="foot" id="cat-foot"></p></div>
+    <p id="err" class="empty" hidden></p>
+  </section>
+
+</main>
+<div id="footer"></div>
+</body>
+</html>

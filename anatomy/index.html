@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Why items are hard · Virtual Bench</title>
+<meta name="description" content="Anatomy of difficulty: what the probe confuses, and whether a perturbation condition is hard because the response is weak, generic or specific.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314181f'/%3E%3Crect x='14.5' y='5' width='3' height='22' rx='1.5' fill='%23fff'/%3E%3Crect x='6' y='20' width='7' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='8' y='14' width='5' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Crect x='10' y='8' width='3' height='2.4' rx='1.2' fill='%23fff' opacity='.6'/%3E%3Ccircle cx='22' cy='9' r='2.8' fill='%236ea8f0'/%3E%3Ccircle cx='22' cy='16' r='2.8' fill='%236ea8f0' opacity='.7'/%3E%3Ccircle cx='22' cy='23' r='2.8' fill='%236ea8f0' opacity='.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="module" src="../assets/app.js"></script>
+</head>
+<body data-page="anatomy" data-base="../">
+<div id="nav"></div>
+<main>
+  <header class="wrap page-head">
+    <p class="kicker">Why items are hard</p>
+    <h1>Anatomy of difficulty</h1>
+    <p>Two questions behind every hard item. For a cell: what does the probe confuse it with, and how far apart are the two labels in the Cell Ontology? For a perturbation condition: is the measured response weak, generic, or specific, and which of those is hard to predict?</p>
+  </header>
+
+  <section class="wrap section tight" id="repr">
+    <div class="head"><h2>Representation: what the probe confuses</h2><p class="lead">For every cell type, the label the pooled classical models most often predict instead, the share of errors it accounts for, and its distance from the true label in the Cell Ontology. Sort any column; search a type or a panel.</p></div>
+    <div class="bar"><input class="inp" id="an-types-q" type="search" placeholder="Search type, panel or confusion…" aria-label="Search"><span class="grow"></span><span class="note" id="an-types-count"></span></div>
+    <div class="tbl-wrap"><table id="an-types"></table></div>
+    <div class="pager"><button type="button" id="an-types-more">show 40 more</button><span>Ontology distance is the number of edges between the true and the predicted label; blank where the panel's labels carry no Cell Ontology id.</span></div>
+    <div class="grid cols-2" style="margin-top:1.6rem">
+      <div class="fig"><h3>How much of a cell's difficulty is its type</h3><p class="sub">Share of variance in cell difficulty explained by cell type alone, and by stratum (type × donor × context), per panel.</p><div id="an-decomp"></div><p class="foot">Where the stratum bar is far longer than the type bar, difficulty is driven by which donor or sample a cell came from, not by its type: the scBaseCount bone marrow, liver and multitissue panels.</p></div>
+      <div class="fig"><h3>Ontology covariates</h3><div class="tbl-wrap"><table id="an-acorr"></table></div><p class="foot" id="an-acorr-note"></p><h3 style="margin-top:0.8rem">Distance of wrong predictions</h3><div id="an-confdist"></div></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="pert">
+    <div class="head"><h2>Perturbation: weak, generic or specific</h2><p class="lead">Every condition is binned by its measured response before any model is scored. The bins are defined once and apply to every screen.</p></div>
+    <div class="callout" id="an-thresholds"></div>
+    <div class="grid cols-2" id="an-bins" style="margin-top:1rem"></div>
+    <div class="prose" style="margin-top:1.2rem">
+      <p>Under the unseen-perturbation split, no-reaction conditions are the easiest bin: a near-zero response is matched by a near-zero prediction, and the mean shift is small too. Generic responses are the hardest, because the mean shift already is the generic response. Under the unseen-combination split the order flips: with the perturbation seen in other contexts, specific responses transfer and are easy, while no-reaction and generic conditions leave a model nothing specific to transfer.</p>
+    </div>
+    <div class="fig" style="margin-top:1.2rem"><h3>Bin shares by screen, unseen-perturbation split</h3><div id="an-screens"></div><p class="foot" id="an-screens-note"></p></div>
+    <div class="grid cols-2" style="margin-top:1rem">
+      <div class="fig"><h3>Spearman correlation of difficulty with condition covariates</h3><div class="tbl-wrap"><table id="an-bcorr"></table></div><p class="foot">Cosine to the context mean shift is the strongest predictor of difficulty on both scales: the more a condition looks like the average response, the harder it is to beat the average.</p></div>
+      <div class="fig"><h3>Within each screen</h3><div class="tbl-wrap"><table id="an-bcorr-ds"></table></div></div>
+    </div>
+    <div class="fig" style="margin-top:1rem"><h3>Target class, genetic screens</h3><div class="tbl-wrap"><table id="an-groups"></table></div><p class="foot">Transcription-factor targets are easier under the unseen-perturbation split: their responses are large and distinctive. Targets that are also in the K562 essential screen are slightly harder there, and much easier under the unseen-combination split, where the same target has been seen in the other K562 screen.</p></div>
+    <p id="err" class="empty" hidden></p>
+  </section>
+
+</main>
+<div id="footer"></div>
+</body>
+</html>
