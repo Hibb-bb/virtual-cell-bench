@@ -1,4 +1,4 @@
-/* Virtual Bench — shared chrome, data loading, chart helpers and the ability board.
+/* Virtual Cell Bench — shared chrome, data loading, chart helpers and the ability board.
    Every page sets <body data-page="..." data-base="./ or ../">; this module draws the nav and
    footer, then dispatches to the page's renderer. No dependencies. */
 
@@ -50,15 +50,15 @@ function chrome() {
   if (nav) {
     nav.className = 'nav';
     nav.innerHTML = `<div class="nav-inner">
-      <a class="brand" href="${BASE}">${MARK}<span>Virtual Bench</span><span class="ver">0.1</span></a>
+      <a class="brand" href="${BASE}">${MARK}<span>Virtual Cell Bench</span><span class="ver">0.1</span></a>
       <nav class="nav-links" aria-label="Site">${PAGES.map(([h, l]) => `<a href="${BASE}${h}"${page === h.replace('/', '') ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
-      <a class="theme-btn" href="${BASE}virtual-bench-0.1.pdf" title="Read the paper (PDF)" aria-label="Read the paper (PDF)">${PAPER}</a></div>`;
+      <a class="theme-btn" href="${BASE}virtual-cell-bench-0.1.pdf" title="Read the paper (PDF)" aria-label="Read the paper (PDF)">${PAPER}</a></div>`;
   }
   const foot = $('#footer');
   if (foot) {
     foot.className = 'footer';
-    foot.innerHTML = `<div class="footer-inner"><span>Virtual Bench 0.1 · a living item-response benchmark for virtual cell models.</span>
-      <span><a href="${BASE}virtual-bench-0.1.pdf">paper (PDF)</a> · <a href="https://github.com/Hibb-bb/vc-benchmark">Code and item bank on GitHub</a> · <a href="${BASE}versions/">scale versions</a> · <a href="${BASE}contribute/">contribute</a></span></div>`;
+    foot.innerHTML = `<div class="footer-inner"><span>Virtual Cell Bench 0.1 · a living item-response benchmark for virtual cell models.</span>
+      <span><a href="${BASE}virtual-cell-bench-0.1.pdf">paper (PDF)</a> · <a href="https://github.com/Hibb-bb/vc-benchmark">Code and item bank on GitHub</a> · <a href="${BASE}versions/">scale versions</a> · <a href="${BASE}contribute/">contribute</a></span></div>`;
   }
   // one floating tooltip for every chart; marks carry data-tip (HTML allowed, we build it ourselves)
   const tip = document.createElement('div'); tip.id = 'tip'; tip.hidden = true; document.body.appendChild(tip);
