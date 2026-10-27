@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=f8bd998902">
-<script type="module" src="../assets/app.js?v=f8bd998902"></script>
+<link rel="stylesheet" href="../assets/site.css?v=9eaa846c13">
+<script type="module" src="../assets/app.js?v=9eaa846c13"></script>
 </head>
 <body data-page="versions" data-base="../">
 <div id="nav"></div>
@@ -23,6 +23,7 @@
 
   <section class="wrap section tight">
     <div class="timeline">
+      <div class="ev"><time>2026-10-27</time><div><h3>Foundation models complete on the curated panels</h3><p>TranscriptFormer on Parse PBMC finishes the per-panel table (+3.31, accuracy 0.890, just below Nyström-256D at +3.41). The pooled placement now uses all eight curated panels, 146,428 cells, again with difficulties held fixed: Geneformer V2 +1.05, scGPT +1.02, TranscriptFormer +1.01, UCE +0.87, STATE +0.75, CellPLM +0.36, scPRINT large −0.15, against +0.72 for the best simple model. The six scBaseCount panels are not yet embedded by the foundation models.</p></div></div>
       <div class="ev"><time>2026-10-26</time><div><h3>Renamed Virtual Cell Bench; foundation models on Tabula Sapiens</h3><p>The site and report are now called Virtual Cell Bench. The seven foundation models are placed on the Tabula Sapiens panel, again with difficulties held fixed: Geneformer V2 +0.99, TranscriptFormer +0.94, UCE +0.81, scGPT +0.76, STATE +0.69, CellPLM +0.48, scPRINT large +0.17, against +0.98 for PCA-128D. CellPLM is also placed on the Parse PBMC panel (+2.27). The pooled scale still uses seven panels for the foundation models; the eight-panel placement follows when TranscriptFormer on Parse finishes. On Hao PBMC, scGPT and Geneformer had been added with a full refit in the first test run; that panel is now fitted on the simple pool alone, which restores its original numbers, and all seven foundation models are placed on it with difficulties held fixed, as on every other panel.</p></div></div>
       <div class="ev"><time>2026-10-21</time><div><h3>Foundation models placed on the curated panels</h3><p>Seven pretrained single-cell models (scGPT, Geneformer V2, UCE, STATE, scPRINT large, CellPLM, TranscriptFormer) embed every cell of the eight curated panels and are read by the same frozen probe. They are placed with item difficulties held fixed, so no published ability moved; the boards mark them <em>anchored</em>. They are also placed on the pooled 14-panel scale from the seven panels finished so far (Tabula Sapiens to follow): scGPT +1.07, Geneformer +1.06, TranscriptFormer +1.02, UCE +0.88, STATE +0.76, CellPLM +0.37, scPRINT large −0.20, against +0.72 for the best simple model. The boards now show a featured set by default, one or two settings per simple family plus every learned model; "show all" reveals the full pool that defines the scale.</p></div></div>
       <div class="ev"><time>2026-10-20</time><div><h3>Perturbation: unseen-combination scale with learned respondents</h3><p>The context split becomes the primary perturbation setting. A second pooled scale, <code>pooled_context</code>, covers the five multi-context screens (Tahoe-100M, Parse cytokines, sciPlex3, McFarland, Frangieh), 71,897 conditions. New respondents: scVI counterfactual, scGen, and two MLPs from item features to a 50-dimensional PCA of the responses. MLP-256 leads at +4.44; scVI counterfactual sits at −0.08 and scGen at −0.42 after the Tahoe rerun.</p></div></div>
