@@ -1,5 +1,5 @@
 const pv = (p) => (p == null ? '–' : p < 1e-4 ? `< 1e-${Math.min(16, Math.ceil(-Math.log10(p)))}` : p < 0.01 ? p.toExponential(1) : p.toFixed(2));
-import { $, bench, getJSON, scatter, legend, famColor, famOrder, int, sgn, fmt, pct, esc } from './app.js?v=621f4fa3ed';
+import { $, bench, getJSON, scatter, legend, famColor, famOrder, int, sgn, fmt, pct, esc } from './app.js?v=e96b3ac623';
 
 export default async function link() {
   const b = await bench();
