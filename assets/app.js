@@ -15,7 +15,7 @@ export const compact = (x) => (x >= 1e6 ? (x / 1e6).toFixed(x >= 1e7 ? 0 : 1) + 
 /* ---------- data ---------- */
 const cache = new Map();
 export async function getJSON(path) {
-  if (!cache.has(path)) cache.set(path, fetch(BASE + path + '?v=3daa5874bf').then((r) => { if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json(); }));
+  if (!cache.has(path)) cache.set(path, fetch(BASE + path + '?v=f8bd998902').then((r) => { if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json(); }));
   return cache.get(path);
 }
 export const bench = () => getJSON('data/bench.json');
@@ -52,13 +52,13 @@ function chrome() {
     nav.innerHTML = `<div class="nav-inner">
       <a class="brand" href="${BASE}">${MARK}<span>Virtual Cell Bench</span><span class="ver">0.1</span></a>
       <nav class="nav-links" aria-label="Site">${PAGES.map(([h, l]) => `<a href="${BASE}${h}"${page === h.replace('/', '') ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
-      <a class="theme-btn" href="${BASE}virtual-cell-bench-0.1.pdf" title="Read the paper (PDF)" aria-label="Read the paper (PDF)">${PAPER}</a></div>`;
+      <a class="theme-btn" href="${BASE}virtual-cell-bench-0.1.pdf" target="_blank" rel="noopener" title="Read the paper (PDF)" aria-label="Read the paper (PDF)">${PAPER}</a></div>`;
   }
   const foot = $('#footer');
   if (foot) {
     foot.className = 'footer';
     foot.innerHTML = `<div class="footer-inner"><span>Virtual Cell Bench 0.1 · a living item-response benchmark for virtual cell models.</span>
-      <span><a href="${BASE}virtual-cell-bench-0.1.pdf">paper (PDF)</a> · <a href="https://github.com/Hibb-bb/vc-benchmark">Code and item bank on GitHub</a> · <a href="${BASE}versions/">scale versions</a> · <a href="${BASE}contribute/">contribute</a></span></div>`;
+      <span><a href="${BASE}virtual-cell-bench-0.1.pdf" target="_blank" rel="noopener">paper (PDF)</a> · <a href="https://github.com/Hibb-bb/vc-benchmark">Code and item bank on GitHub</a> · <a href="${BASE}versions/">scale versions</a> · <a href="${BASE}contribute/">contribute</a></span></div>`;
   }
   // one floating tooltip for every chart; marks carry data-tip (HTML allowed, we build it ourselves)
   const tip = document.createElement('div'); tip.id = 'tip'; tip.hidden = true; document.body.appendChild(tip);
@@ -269,5 +269,5 @@ export function wright(el, b, comp, scale, { w = 620, h = 440, animate = true, m
 /* ---------- boot ---------- */
 chrome();
 const page = document.body.dataset.page;
-const modules = { home: './home.js?v=3daa5874bf', leaderboard: './leaderboard.js?v=3daa5874bf', datasets: './datasets.js?v=3daa5874bf', items: './items.js?v=3daa5874bf', analysis: './analysis.js?v=3daa5874bf', anatomy: './anatomy.js?v=3daa5874bf', link: './link.js?v=3daa5874bf', how: './how.js?v=3daa5874bf' };
+const modules = { home: './home.js?v=f8bd998902', leaderboard: './leaderboard.js?v=f8bd998902', datasets: './datasets.js?v=f8bd998902', items: './items.js?v=f8bd998902', analysis: './analysis.js?v=f8bd998902', anatomy: './anatomy.js?v=f8bd998902', link: './link.js?v=f8bd998902', how: './how.js?v=f8bd998902' };
 if (modules[page]) import(modules[page]).then((m) => m.default()).catch((e) => { console.error(e); const el = $('#err'); if (el) { el.hidden = false; el.textContent = 'Could not load the data for this page: ' + e.message; } });

@@ -1,4 +1,4 @@
-import { $, $$, bench, board, legend, famOrder, familyOf, nameOf, int, sgn, fmt, pct, esc, view, allToggle, setAllModels } from './app.js?v=3daa5874bf';
+import { $, $$, bench, board, legend, famOrder, familyOf, nameOf, int, sgn, fmt, pct, esc, view, allToggle, setAllModels } from './app.js?v=f8bd998902';
 
 export default async function leaderboard() {
   const b = await bench();
