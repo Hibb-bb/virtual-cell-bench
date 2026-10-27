@@ -1,0 +1,2 @@
+# Cloudflare Pages redirects (ignored by GitHub Pages)
+/virtual-bench-0.1.pdf /virtual-cell-bench-0.1.pdf 301

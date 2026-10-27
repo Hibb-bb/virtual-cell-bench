@@ -15,7 +15,7 @@ export const compact = (x) => (x >= 1e6 ? (x / 1e6).toFixed(x >= 1e7 ? 0 : 1) + 
 /* ---------- data ---------- */
 const cache = new Map();
 export async function getJSON(path) {
-  if (!cache.has(path)) cache.set(path, fetch(BASE + path + '?v=e96b3ac623').then((r) => { if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json(); }));
+  if (!cache.has(path)) cache.set(path, fetch(BASE + path + '?v=3daa5874bf').then((r) => { if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json(); }));
   return cache.get(path);
 }
 export const bench = () => getJSON('data/bench.json');
@@ -269,5 +269,5 @@ export function wright(el, b, comp, scale, { w = 620, h = 440, animate = true, m
 /* ---------- boot ---------- */
 chrome();
 const page = document.body.dataset.page;
-const modules = { home: './home.js?v=e96b3ac623', leaderboard: './leaderboard.js?v=e96b3ac623', datasets: './datasets.js?v=e96b3ac623', items: './items.js?v=e96b3ac623', analysis: './analysis.js?v=e96b3ac623', anatomy: './anatomy.js?v=e96b3ac623', link: './link.js?v=e96b3ac623', how: './how.js?v=e96b3ac623' };
+const modules = { home: './home.js?v=3daa5874bf', leaderboard: './leaderboard.js?v=3daa5874bf', datasets: './datasets.js?v=3daa5874bf', items: './items.js?v=3daa5874bf', analysis: './analysis.js?v=3daa5874bf', anatomy: './anatomy.js?v=3daa5874bf', link: './link.js?v=3daa5874bf', how: './how.js?v=3daa5874bf' };
 if (modules[page]) import(modules[page]).then((m) => m.default()).catch((e) => { console.error(e); const el = $('#err'); if (el) { el.hidden = false; el.textContent = 'Could not load the data for this page: ' + e.message; } });

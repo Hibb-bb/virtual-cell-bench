@@ -1,4 +1,4 @@
-import { $, bench, spark, nameOf, int, sgn, pct, esc, compact } from './app.js?v=e96b3ac623';
+import { $, bench, spark, nameOf, int, sgn, pct, esc, compact } from './app.js?v=3daa5874bf';
 
 export default async function datasets() {
   const b = await bench();

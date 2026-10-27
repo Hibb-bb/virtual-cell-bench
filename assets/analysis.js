@@ -1,4 +1,4 @@
-import { $, $$, bench, getJSON, lines, boxes, nameOf, familyOf, famColor, int, sgn, fmt, pct, esc } from './app.js?v=e96b3ac623';
+import { $, $$, bench, getJSON, lines, boxes, nameOf, familyOf, famColor, int, sgn, fmt, pct, esc } from './app.js?v=3daa5874bf';
 
 export default async function analysis() {
   const b = await bench();
