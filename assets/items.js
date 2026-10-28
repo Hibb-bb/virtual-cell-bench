@@ -1,4 +1,4 @@
-import { $, $$, bench, getJSON, int, sgn, fmt, pct, esc } from './app.js?v=7eb4ae4502';
+import { $, $$, bench, getJSON, int, sgn, fmt, pct, esc } from './app.js?v=d2bcbd62cb';
 
 const PAGE = 50;
 

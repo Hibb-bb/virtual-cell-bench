@@ -1,4 +1,4 @@
-import { $, $$, bench, getJSON, board, wright, legend, famOrder, familyOf, nameOf, int, sgn, fmt, pct, compact, esc, scatter, view } from './app.js?v=7eb4ae4502';
+import { $, $$, bench, getJSON, board, wright, legend, famOrder, familyOf, nameOf, int, sgn, fmt, pct, compact, esc, scatter, view } from './app.js?v=d2bcbd62cb';
 
 export default async function home() {
   // pipeline figure: play the staged reveal once it scrolls into view

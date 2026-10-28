@@ -1,4 +1,4 @@
-import { $, bench, scatter, legend, famColor, nameOf, sgn, fmt, pct, esc } from './app.js?v=7eb4ae4502';
+import { $, bench, scatter, legend, famColor, nameOf, sgn, fmt, pct, esc } from './app.js?v=d2bcbd62cb';
 
 /* One model, fourteen tests: its pass rate on each panel against the panel's mean difficulty on the
    pooled scale. The pass rate moves with the panel; the ability on the pooled scale is one number. */

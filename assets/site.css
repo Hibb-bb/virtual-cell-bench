@@ -84,6 +84,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .footer { border-top: 1px solid var(--line); margin-top: 4rem; color: var(--fg-2); font-size: 0.9rem; }
 .footer-inner { max-width: var(--wide); margin: 0 auto; padding-block: 2rem; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; }
 .footer a { color: inherit; }
+.footer-logos { max-width: var(--wide); margin: 0 auto; padding: 2rem max(16px, env(safe-area-inset-left, 0px)) 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.5rem 3rem; background: #ffffff; }
+.footer-logos img { display: block; width: auto; max-width: 100%; }
 
 /* ---------- layout ---------- */
 .wrap { max-width: var(--wide); margin: 0 auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }

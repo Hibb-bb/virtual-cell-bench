@@ -15,7 +15,7 @@ export const compact = (x) => (x >= 1e6 ? (x / 1e6).toFixed(x >= 1e7 ? 0 : 1) + 
 /* ---------- data ---------- */
 const cache = new Map();
 export async function getJSON(path) {
-  if (!cache.has(path)) cache.set(path, fetch(BASE + path + '?v=7eb4ae4502').then((r) => { if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json(); }));
+  if (!cache.has(path)) cache.set(path, fetch(BASE + path + '?v=d2bcbd62cb').then((r) => { if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.json(); }));
   return cache.get(path);
 }
 export const bench = () => getJSON('data/bench.json');
@@ -57,7 +57,11 @@ function chrome() {
   const foot = $('#footer');
   if (foot) {
     foot.className = 'footer';
-    foot.innerHTML = `<div class="footer-inner"><span>Virtual Cell Bench 0.1 · a living item-response benchmark for virtual cell models.</span>
+    foot.innerHTML = `<div class="footer-logos" aria-label="With support from">
+      <img src="${BASE}assets/logos/biohub.png" alt="CZ Biohub" height="32">
+      <img src="${BASE}assets/logos/northwestern.png" alt="Northwestern University" height="34">
+      <img src="${BASE}assets/logos/cfmg.png" alt="Center for Foundation Models and Generative AI, Northwestern University" height="56"></div>
+    <div class="footer-inner"><span>Virtual Cell Bench 0.1 · a living item-response benchmark for virtual cell models.</span>
       <span><a href="${BASE}virtual-cell-bench-0.1.pdf" target="_blank" rel="noopener">paper (PDF)</a> · <a href="https://github.com/Hibb-bb/vc-benchmark">Code and item bank on GitHub</a> · <a href="${BASE}versions/">scale versions</a> · <a href="${BASE}contribute/">contribute</a></span></div>`;
   }
   // one floating tooltip for every chart; marks carry data-tip (HTML allowed, we build it ourselves)
@@ -269,5 +273,5 @@ export function wright(el, b, comp, scale, { w = 620, h = 440, animate = true, m
 /* ---------- boot ---------- */
 chrome();
 const page = document.body.dataset.page;
-const modules = { home: './home.js?v=7eb4ae4502', leaderboard: './leaderboard.js?v=7eb4ae4502', datasets: './datasets.js?v=7eb4ae4502', items: './items.js?v=7eb4ae4502', analysis: './analysis.js?v=7eb4ae4502', anatomy: './anatomy.js?v=7eb4ae4502', link: './link.js?v=7eb4ae4502', how: './how.js?v=7eb4ae4502' };
+const modules = { home: './home.js?v=d2bcbd62cb', leaderboard: './leaderboard.js?v=d2bcbd62cb', datasets: './datasets.js?v=d2bcbd62cb', items: './items.js?v=d2bcbd62cb', analysis: './analysis.js?v=d2bcbd62cb', anatomy: './anatomy.js?v=d2bcbd62cb', link: './link.js?v=d2bcbd62cb', how: './how.js?v=d2bcbd62cb' };
 if (modules[page]) import(modules[page]).then((m) => m.default()).catch((e) => { console.error(e); const el = $('#err'); if (el) { el.hidden = false; el.textContent = 'Could not load the data for this page: ' + e.message; } });
